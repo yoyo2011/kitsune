@@ -70,7 +70,7 @@ def job_send_welcome_emails():
 
 # Every hour.
 @scheduled_job('cron', month='*', day='*', hour='*', minute='00',
-               max_instances=1, coalesce=True, skip=(settings.READ_ONLY or settings.STAGE))
+               max_instances=1, coalesce=True, skip=settings.READ_ONLY)
 @babis.decorator(ping_after=settings.DMS_PROCESS_EXIT_SURVEYS)
 def job_process_exit_surveys():
     call_command('cron process_exit_surveys')

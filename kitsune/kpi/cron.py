@@ -415,7 +415,9 @@ def process_exit_surveys():
     # with the intent of providing a 4-5 hour wait period between when a
     # visitor enters their email address and is then sent a follow-up
     # survey.
-    startdatetime = datetime.now() - timedelta(hours=5)
+    # The range here is set between 4 and 8 hours to be sure no emails are
+    # missed should a particular cron run be skipped (e.g. during a deployment)
+    startdatetime = datetime.now() - timedelta(hours=8)
     enddatetime = datetime.now() - timedelta(hours=4)
 
     for survey in SURVEYS.keys():

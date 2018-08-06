@@ -60,7 +60,7 @@ def job_enqueue_lag_monitor_task():
     call_command('cron enqueue_lag_monitor_task')
 
 
-# Every 30 minutes.
+# Every hour.
 @scheduled_job('cron', month='*', day='*', hour='*', minute='30',
                max_instances=1, coalesce=True, skip=settings.READ_ONLY)
 @babis.decorator(ping_after=settings.DMS_SEND_WELCOME_EMAILS)

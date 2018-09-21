@@ -23,6 +23,22 @@ from kitsune.users.api import ProfileFKSerializer
 from kitsune.users.models import Profile
 
 
+DATETIME_LOOKUP_TYPES = (
+    'exact',
+    'lt',
+    'lte',
+    'gt',
+    'gte',
+    'year',
+    'month',
+    'day',
+    'week_day',
+    'hour',
+    'minute',
+    'second',
+)
+
+
 class QuestionMetaDataSerializer(serializers.ModelSerializer):
     question = serializers.PrimaryKeyRelatedField(
         required=False,
@@ -144,12 +160,15 @@ class QuestionFilter(django_filters.FilterSet):
     metadata = django_filters.MethodFilter(action='filter_metadata')
     solved_by = django_filters.MethodFilter(action='filter_solved_by')
     taken_by = django_filters.CharFilter(name='taken_by__username')
+    created = django_filters.DateTimeFilter(name='created',
+                                            lookup_type=DATETIME_LOOKUP_TYPES)
+    updated = django_filters.DateTimeFilter(name='updated',
+                                            lookup_type=DATETIME_LOOKUP_TYPES)
 
     class Meta(object):
         model = Question
         fields = [
             'creator',
-            'created',
             'involved',
             'is_archived',
             'is_locked',
@@ -163,7 +182,6 @@ class QuestionFilter(django_filters.FilterSet):
             'taken_by',
             'title',
             'topic',
-            'updated',
             'updated_by',
         ]
 
